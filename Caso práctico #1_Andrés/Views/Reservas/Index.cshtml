@@ -1,0 +1,100 @@
+@using System.Globalization
+@model IReadOnlyList<Caso_práctico__1_Andrés.Application.Dtos.ReservaDto>
+@{
+    ViewData["Title"] = "Agenda semanal";
+    var cultura = CultureInfo.GetCultureInfo("es-CR");
+    var hoy = DateOnly.FromDateTime(DateTime.Today);
+    var desplazamiento = ((int)hoy.DayOfWeek + 6) % 7;
+    var lunes = hoy.AddDays(-desplazamiento);
+    var dias = Enumerable.Range(0, 7).Select(indice => lunes.AddDays(indice)).ToList();
+    var horas = Enumerable.Range(0, 14)
+        .Select(indice => TimeOnly.FromTimeSpan(TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(indice * 30))))
+        .ToList();
+}
+
+<div class="page-heading d-flex justify-content-between align-items-center">
+    <div>
+        <h1>Agenda semanal</h1>
+        <p class="text-muted mb-0">
+            Reservas del @lunes.ToDateTime(TimeOnly.MinValue).ToString("dd/MM/yyyy") al
+            @lunes.AddDays(6).ToDateTime(TimeOnly.MinValue).ToString("dd/MM/yyyy").
+        </p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Nueva reserva</a>
+</div>
+
+@if (TempData["Mensaje"] is string mensaje)
+{
+    <div class="alert alert-success">@mensaje</div>
+}
+
+<div class="alert alert-light border mb-3">
+    Cada celda representa 30 minutos. Las celdas azules indican que existe una reserva en ese horario.
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered calendar-table align-middle">
+        <thead>
+            <tr>
+                <th class="calendar-time-column">Hora</th>
+                @foreach (var dia in dias)
+                {
+                    <th class="text-center">
+                        @dia.ToDateTime(TimeOnly.MinValue).ToString("ddd", cultura)<br />
+                        <small>@dia.ToString("dd/MM")</small>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var hora in horas)
+        {
+            <tr>
+                <th class="calendar-time">@hora.ToString("HH:mm")</th>
+                @foreach (var dia in dias)
+                {
+                    var inicioFranja = dia.ToDateTime(hora);
+                    var finFranja = inicioFranja.AddMinutes(30);
+                    var reservas = Model.Where(reserva =>
+                        reserva.FechaInicio < finFranja && reserva.FechaFin > inicioFranja &&
+                        DateOnly.FromDateTime(reserva.FechaInicio) == dia).ToList();
+                    <td class="calendar-cell @(reservas.Count > 0 ? "calendar-cell-busy" : string.Empty)">
+                        @foreach (var reserva in reservas)
+                        {
+                            <div class="calendar-booking" title="@reserva.Motivo">
+                                <strong>@reserva.Motivo</strong>
+                                <small>@reserva.SalaNombre</small>
+                                <small>@reserva.FechaInicio.ToString("HH:mm") - @reserva.FechaFin.ToString("HH:mm")</small>
+                            </div>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+<div class="mt-4">
+    <h2 class="h5">Detalle de la semana</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr><th>Motivo</th><th>Sala</th><th>Encargado</th><th>Personas</th><th>Inicio</th><th>Fin</th></tr>
+            </thead>
+            <tbody>
+            @foreach (var reserva in Model.Where(reserva => DateOnly.FromDateTime(reserva.FechaInicio) >= lunes && DateOnly.FromDateTime(reserva.FechaInicio) <= lunes.AddDays(6)))
+            {
+                <tr>
+                    <td>@reserva.Motivo</td>
+                    <td>@reserva.SalaNombre</td>
+                    <td>@reserva.Encargado</td>
+                    <td>@reserva.CantidadPersonas</td>
+                    <td>@reserva.FechaInicio.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@reserva.FechaFin.ToString("HH:mm")</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+@model Caso_práctico__1_Andrés.Application.Dtos.ReservaDto
+@{
+    ViewData["Title"] = "Nueva reserva";
+}
+
+<div class="page-heading">
+    <h1>Nueva reserva</h1>
+    <p class="text-muted mb-0">Complete los datos para reservar una sala de reuniones.</p>
+</div>
+<form asp-action="Create" method="post" class="form-panel">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="mb-3">
+        <label asp-for="Motivo" class="form-label">Motivo de reservación</label>
+        <input asp-for="Motivo" class="form-control" />
+        <span asp-validation-for="Motivo" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="SalaId" class="form-label">Sala</label>
+        <select asp-for="SalaId" asp-items="ViewBag.Salas" class="form-select">
+            <option value="0">Seleccione una sala</option>
+        </select>
+        <span asp-validation-for="SalaId" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Encargado" class="form-label">Encargado de reservación</label>
+        <input asp-for="Encargado" class="form-control" />
+        <span asp-validation-for="Encargado" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="CantidadPersonas" class="form-label">Cantidad de personas</label>
+        <input asp-for="CantidadPersonas" class="form-control" type="number" min="1" />
+        <span asp-validation-for="CantidadPersonas" class="text-danger"></span>
+        <div class="form-text">La cantidad no puede superar la capacidad de la sala.</div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label asp-for="Dia" class="form-label">Día de la reunión</label>
+            <input asp-for="Dia" class="form-control" type="date" />
+            <span asp-validation-for="Dia" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label asp-for="HoraInicio" class="form-label">Hora de inicio</label>
+            <select asp-for="HoraInicio" class="form-select">
+                @for (var minutos = 10 * 60; minutos <= 16 * 60 + 30; minutos += 30)
+                {
+                    var hora = new TimeOnly(minutos / 60, minutos % 60);
+                    <option value="@hora.ToString("HH:mm")" data-time="@hora.ToString("HH:mm")">@hora.ToString("HH:mm")</option>
+                }
+            </select>
+            <span asp-validation-for="HoraInicio" class="text-danger"></span>
+        </div>
+        <div class="col-md-4 mb-3">
+            <label class="form-label d-block">Duración</label>
+            <div class="btn-group w-100" role="group" aria-label="Duración de la reserva">
+                <input asp-for="DuracionMinutos" type="radio" class="btn-check" value="30" id="duracion30" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="duracion30">30 minutos</label>
+                <input asp-for="DuracionMinutos" type="radio" class="btn-check" value="60" id="duracion60" autocomplete="off" />
+                <label class="btn btn-outline-primary" for="duracion60">1 hora</label>
+            </div>
+            <span asp-validation-for="DuracionMinutos" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="actions">
+        <button type="submit" class="btn btn-primary">Confirmar reserva</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        const horaInicio = document.getElementById('HoraInicio');
+        const duracion60 = document.getElementById('duracion60');
+        const actualizarHoras = () => {
+            const hora = horaInicio.value;
+            const ultimaHora = hora === '16:30';
+            duracion60.disabled = ultimaHora;
+            if (ultimaHora && duracion60.checked) {
+                document.getElementById('duracion30').checked = true;
+            }
+        };
+        horaInicio.addEventListener('change', actualizarHoras);
+        actualizarHoras();
+    </script>
+}

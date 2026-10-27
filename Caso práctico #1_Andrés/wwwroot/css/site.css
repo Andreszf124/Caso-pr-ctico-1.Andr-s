@@ -1,0 +1,162 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+  color: #26364a;
+  background-color: #f5f7fb;
+}
+
+.navbar-brand {
+  font-weight: 600;
+}
+
+.navbar {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 8px rgba(34, 52, 74, .08);
+}
+
+.nav-link {
+  color: #526174 !important;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  color: #0d6efd !important;
+}
+
+.app-content {
+  min-height: calc(100vh - 180px);
+}
+
+.card {
+  border: 1px solid #e3e6ea;
+  border-radius: .75rem;
+  box-shadow: 0 .25rem .8rem rgba(34, 52, 74, .06);
+}
+
+.card h2,
+.card h3 {
+  color: #1d3557;
+}
+
+h1 {
+  color: #1d3557;
+  font-weight: 600;
+}
+
+.page-heading {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e0e6ef;
+}
+
+.form-panel {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.75rem;
+  border: 1px solid #e3e6ea;
+  border-radius: .75rem;
+  background-color: #ffffff;
+  box-shadow: 0 .25rem .8rem rgba(34, 52, 74, .06);
+}
+
+.form-label {
+  color: #45566d;
+  font-weight: 600;
+}
+
+.form-control,
+.form-select {
+  border-color: #d6deea;
+  border-radius: .45rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #86b7fe;
+}
+
+.table thead th {
+  color: #ffffff;
+  background-color: #1d3557;
+  border-color: #1d3557;
+  font-weight: 500;
+}
+
+.table tbody tr:hover {
+  background-color: #f0f5ff;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+
+.table {
+  background-color: white;
+}
+
+.calendar-table {
+  min-width: 980px;
+  table-layout: fixed;
+}
+
+.calendar-time-column {
+  width: 75px;
+}
+
+.calendar-time {
+  color: #526174;
+  background-color: #f8fafc;
+  font-size: .85rem;
+  text-align: center;
+}
+
+.calendar-cell {
+  height: 54px;
+  padding: .25rem !important;
+  background-color: #ffffff;
+  vertical-align: top !important;
+}
+
+.calendar-cell-busy {
+  background-color: #eaf2ff;
+}
+
+.calendar-booking {
+  display: flex;
+  flex-direction: column;
+  padding: .35rem;
+  color: #164b9b;
+  border-left: 3px solid #0d6efd;
+  border-radius: .25rem;
+  background-color: #cfe2ff;
+  font-size: .75rem;
+}
+
+.calendar-booking small {
+  color: #365b88;
+}
+
+.footer {
+  padding: 1rem 0;
+  background-color: white;
+}

@@ -1,0 +1,72 @@
+@using System.Globalization
+@model IReadOnlyList<Caso_práctico__1_Andrés.Application.Dtos.ReservaDto>
+@{
+    ViewData["Title"] = "Inicio";
+    var cultura = CultureInfo.GetCultureInfo("es-CR");
+    var hoy = DateOnly.FromDateTime(DateTime.Today);
+    var desplazamiento = ((int)hoy.DayOfWeek + 6) % 7;
+    var lunes = hoy.AddDays(-desplazamiento);
+    var dias = Enumerable.Range(0, 7).Select(indice => lunes.AddDays(indice)).ToList();
+    var horas = Enumerable.Range(0, 14)
+        .Select(indice => TimeOnly.FromTimeSpan(TimeSpan.FromHours(10).Add(TimeSpan.FromMinutes(indice * 30))))
+        .ToList();
+}
+
+<div class="page-heading d-flex justify-content-between align-items-center">
+    <div>
+        <h1>Reservas Costa Rica</h1>
+        <p class="text-muted mb-0">Agenda semanal de salas de reuniones.</p>
+    </div>
+    <div class="actions">
+        <a asp-controller="Salas" asp-action="Index" class="btn btn-outline-primary">Ver salas</a>
+        <a asp-controller="Reservas" asp-action="Create" class="btn btn-primary">Crear reserva</a>
+    </div>
+</div>
+
+<div class="alert alert-light border">
+    Semana del @lunes.ToDateTime(TimeOnly.MinValue).ToString("dd/MM/yyyy") al
+    @lunes.AddDays(6).ToDateTime(TimeOnly.MinValue).ToString("dd/MM/yyyy"). Las celdas azules indican horarios reservados.
+</div>
+
+<div class="table-responsive">
+    <table class="table table-bordered calendar-table align-middle">
+        <thead>
+            <tr>
+                <th class="calendar-time-column">Hora</th>
+                @foreach (var dia in dias)
+                {
+                    <th class="text-center">
+                        @dia.ToDateTime(TimeOnly.MinValue).ToString("ddd", cultura)<br />
+                        <small>@dia.ToString("dd/MM")</small>
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var hora in horas)
+        {
+            <tr>
+                <th class="calendar-time">@hora.ToString("HH:mm")</th>
+                @foreach (var dia in dias)
+                {
+                    var inicioFranja = dia.ToDateTime(hora);
+                    var finFranja = inicioFranja.AddMinutes(30);
+                    var reservas = Model.Where(reserva =>
+                        reserva.FechaInicio < finFranja && reserva.FechaFin > inicioFranja &&
+                        DateOnly.FromDateTime(reserva.FechaInicio) == dia).ToList();
+                    <td class="calendar-cell @(reservas.Count > 0 ? "calendar-cell-busy" : string.Empty)">
+                        @foreach (var reserva in reservas)
+                        {
+                            <div class="calendar-booking" title="@reserva.Motivo">
+                                <strong>@reserva.Motivo</strong>
+                                <small>@reserva.SalaNombre</small>
+                                <small>@reserva.FechaInicio.ToString("HH:mm") - @reserva.FechaFin.ToString("HH:mm")</small>
+                            </div>
+                        }
+                    </td>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

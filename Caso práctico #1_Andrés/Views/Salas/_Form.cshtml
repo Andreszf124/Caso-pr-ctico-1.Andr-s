@@ -1,0 +1,19 @@
+@model Caso_práctico__1_Andrés.Application.Dtos.SalaDto
+
+<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mb-3">
+    <label asp-for="Nombre" class="form-label"></label>
+    <input asp-for="Nombre" class="form-control" />
+    <span asp-validation-for="Nombre" class="text-danger"></span>
+</div>
+<div class="mb-3">
+    <label asp-for="Capacidad" class="form-label"></label>
+    <input asp-for="Capacidad" class="form-control" type="number" min="0" max="30" />
+    <span asp-validation-for="Capacidad" class="text-danger"></span>
+    <div class="form-text">Ingrese un valor entre 0 y 30 personas.</div>
+</div>
+<div class="mb-3">
+    <label asp-for="Ubicacion" class="form-label"></label>
+    <input asp-for="Ubicacion" class="form-control" />
+    <span asp-validation-for="Ubicacion" class="text-danger"></span>
+</div>

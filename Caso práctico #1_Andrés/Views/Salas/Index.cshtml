@@ -1,0 +1,37 @@
+@model IReadOnlyList<Caso_práctico__1_Andrés.Application.Dtos.SalaDto>
+@{
+    ViewData["Title"] = "Salas";
+}
+
+<h1>Salas</h1>
+<p><a asp-action="Create" class="btn btn-primary">Nueva sala</a></p>
+
+@if (TempData["Mensaje"] is string mensaje)
+{
+    <div class="alert alert-success">@mensaje</div>
+}
+@if (TempData["Error"] is string error)
+{
+    <div class="alert alert-danger">@error</div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr><th>Nombre</th><th>Capacidad</th><th>Ubicación</th><th></th></tr>
+    </thead>
+    <tbody>
+    @foreach (var sala in Model)
+    {
+        <tr>
+            <td>@sala.Nombre</td>
+            <td>@sala.Capacidad</td>
+            <td>@sala.Ubicacion</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@sala.Id">Detalle</a> |
+                <a asp-action="Edit" asp-route-id="@sala.Id">Editar</a> |
+                <a asp-action="Delete" asp-route-id="@sala.Id">Eliminar</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

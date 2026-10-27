@@ -1,0 +1,12 @@
+@model Caso_práctico__1_Andrés.Application.Dtos.SalaDto
+@{
+    ViewData["Title"] = "Eliminar sala";
+}
+
+<h1>Eliminar sala</h1>
+<div class="alert alert-warning">¿Desea eliminar la sala <strong>@Model.Nombre</strong>?</div>
+<form asp-action="Delete" method="post">
+    <input asp-for="Id" type="hidden" />
+    <button type="submit" class="btn btn-danger">Eliminar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>

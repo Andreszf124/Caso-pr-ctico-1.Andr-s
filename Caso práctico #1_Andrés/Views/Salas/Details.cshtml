@@ -1,0 +1,13 @@
+@model Caso_práctico__1_Andrés.Application.Dtos.SalaDto
+@{
+    ViewData["Title"] = "Detalle de sala";
+}
+
+<h1>Detalle de sala</h1>
+<dl class="row">
+    <dt class="col-sm-3">Nombre</dt><dd class="col-sm-9">@Model.Nombre</dd>
+    <dt class="col-sm-3">Capacidad</dt><dd class="col-sm-9">@Model.Capacidad</dd>
+    <dt class="col-sm-3">Ubicación</dt><dd class="col-sm-9">@Model.Ubicacion</dd>
+</dl>
+<a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Editar</a>
+<a asp-action="Index" class="btn btn-secondary">Volver</a>

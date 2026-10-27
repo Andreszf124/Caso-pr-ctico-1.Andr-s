@@ -1,0 +1,14 @@
+@model Caso_práctico__1_Andrés.Application.Dtos.SalaDto
+@{
+    ViewData["Title"] = "Nueva sala";
+}
+
+<h1>Nueva sala</h1>
+<form asp-action="Create" method="post">
+    <partial name="_Form" model="Model" />
+    <button type="submit" class="btn btn-primary">Guardar</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

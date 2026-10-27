@@ -1,0 +1,6 @@
+﻿<Solution>
+  <Project Path="Caso práctico #1_Andrés.Application/Caso práctico #1_Andrés.Application.csproj" />
+  <Project Path="Caso práctico #1_Andrés.Domain/Caso práctico #1_Andrés.Domain.csproj" />
+  <Project Path="Caso práctico #1_Andrés.Infrastructure/Caso práctico #1_Andrés.Infrastructure.csproj" />
+  <Project Path="Caso práctico #1_Andrés/Caso práctico #1_Andrés.csproj" />
+</Solution>
